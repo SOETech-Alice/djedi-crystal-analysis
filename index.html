@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Djedi Water Crystal Analysis — Private</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root{--bg:#0b0f14;--panel:#111823;--line:#1d2a3a;--ink:#dbe6f2;--dim:#7c8fa3;--cyan:#5bc8f5;--gold:#c9a86a;--green:#59c98f;--amber:#e8b45a;--red:#e57373}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.7;font-size:15.5px}
+.gate{position:fixed;inset:0;background:radial-gradient(1200px 600px at 50% -10%,#13202e,var(--bg));display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.gate .card{max-width:420px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:44px 36px;text-align:center}
+.gate .hex{width:74px;height:74px;margin:0 auto 18px}
+.gate h1{font-size:20px;font-weight:600;letter-spacing:.5px}
+.gate p{color:var(--dim);font-size:13px;margin:10px 0 24px}
+.gate input{width:100%;background:#0d1420;border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:14px 16px;font-size:15px;letter-spacing:2px;text-align:center;outline:none;margin-bottom:14px}
+.gate input:focus{border-color:var(--cyan)}
+.gate button{width:100%;background:linear-gradient(135deg,#1d4e6e,#2a6f96);border:0;border-radius:10px;padding:13px;font-size:14px;font-weight:600;color:#eaf5fd;cursor:pointer;letter-spacing:1px}
+.gate .err{color:var(--red);font-size:12.5px;margin-top:12px;min-height:16px}
+.wrap{max-width:980px;margin:0 auto;padding:32px 20px 60px}
+header{border-bottom:1px solid var(--line);padding:18px 4px 16px;margin-bottom:26px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+header .hex{width:40px;height:40px}
+header h1{font-size:17px;font-weight:600}
+header .tag{font-size:10.5px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;border:1px solid #3a3325;padding:3px 10px;border-radius:20px}
+h2{font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--cyan);margin:38px 0 14px;font-weight:600}
+h3{font-size:15.5px;margin:20px 0 8px;color:var(--ink)}
+p{color:#b9c8d8;margin-bottom:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:14px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.grid2{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+th{background:#0d1521;color:var(--cyan);text-align:left;padding:8px 10px;border:1px solid var(--line);font-weight:600;font-size:12px}
+td{padding:8px 10px;border:1px solid var(--line);color:#b9c8d8;vertical-align:top}
+.pill{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 9px;border-radius:20px;margin-right:6px}
+.p-physics{background:#0f2d22;color:var(--green)}
+.p-claimed{background:#2d2313;color:var(--amber)}
+.p-untested{background:#231a2d;color:#b99ae8}
+.hook{border:1px dashed #2a3a4e;border-radius:12px;padding:16px 18px;margin:14px 0;background:#0d1520}
+canvas{max-width:100%;background:#0d1420;border:1px solid var(--line);border-radius:10px;display:block;margin:14px auto}
+.btn{background:linear-gradient(135deg,#1d4e6e,#2a6f96);border:0;border-radius:9px;padding:11px 22px;color:#eaf5fd;font-weight:600;font-size:13.5px;cursor:pointer;letter-spacing:.5px}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--dim)}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.res .stat{background:#0d1521;border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
+.res .stat .v{font-size:22px;font-weight:700;color:var(--cyan)}
+.res .stat .l{font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+.note{font-size:12px;color:var(--dim)}
+ul{margin:8px 0 14px 22px;color:#b9c8d8}
+li{margin-bottom:6px}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--dim);line-height:1.7}
+</style>
+</head>
+<body>
+
+<!-- ============ GATE ============ -->
+<div class="gate" id="gate">
+  <div class="card">
+    <svg class="hex" viewBox="0 0 100 100" fill="none" stroke="#5bc8f5" stroke-width="2.5">
+      <polygon points="50,6 88,28 88,72 50,94 12,72 12,28"/>
+      <polygon points="50,22 74,36 74,64 50,78 26,64 26,36" stroke="#c9a86a" stroke-width="1.6" opacity=".8"/>
+      <circle cx="50" cy="50" r="5" fill="#c9a86a" stroke="none"/>
+    </svg>
+    <h1>Djedi Water Crystal Analysis</h1>
+    <p>Private research archive · Djedi Church &amp; SOETech<br>Passcode required — not indexed, not linked</p>
+    <input type="password" id="pw" placeholder="Passcode" autocomplete="off">
+    <button onclick="unlock()">Enter →</button>
+    <p class="err" id="err"></p>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" style="display:none">
+<div class="wrap">
+<header>
+  <svg class="hex" viewBox="0 0 100 100" fill="none" stroke="#5bc8f5" stroke-width="3"><polygon points="50,6 88,28 88,72 50,94 12,72 12,28"/><circle cx="50" cy="50" r="8" fill="#c9a86a" stroke="none"/></svg>
+  <h1>Water Crystal — Private Pattern Analysis</h1>
+  <span class="tag">Private · Chris Only</span>
+</header>
+
+<div class="card">
+<p><strong style="color:var(--ink)">What this is.</strong> The private scientific companion to the Water Series post. Everything here is labeled by evidence class: <span class="pill p-physics">PHYSICS</span> established ice science, <span class="pill p-claimed">CLAIMED</span> Emoto's research claims, <span class="pill p-untested">UNTESTED</span> honest unknowns. Built from four research reports with 100+ verified sources (including a documented clean negative from the CIA CREST archive).</p>
+</div>
+
+<h2>1 — The core finding</h2>
+<div class="card">
+<p><strong style="color:var(--ink)">The selection effect explains the photograph collections.</strong> Emoto's own office: 50–100 crystals form per sample, "we usually choose a representative one." His stated protocol temperature (−25 °C examination at −5 °C) predicts <strong>columns and simple plates</strong> under the Nakaya/Libbrecht morphology diagram — yet his published "beautiful" sets are overwhelmingly fern-like dendrites, the form that requires −12 to −16 °C and water-saturated air. The mismatch between protocol and published habit is the single most diagnostic fact in the entire controversy.</p>
+<table>
+<tr><th>Habit</th><th>Forms at</th><th>In Emoto's published sets</th><th>Physics predicts</th></tr>
+<tr><td>Stellar dendrites</td><td>−12 to −16 °C, high humidity</td><td>Abundant (the "beautiful" images)</td><td>Rare under stated protocol</td></tr>
+<tr><td>Sectored plates</td><td>−2 to −10 °C</td><td>Common</td><td>Occasional</td></tr>
+<tr><td>Columns / needles</td><td>−20 to −25 °C, lower humidity</td><td>Nearly absent</td><td>DOMINANT under stated protocol</td></tr>
+</table>
+<p class="note">Sources: Nakaya (1954); Magono &amp; Lee (1966); Libbrecht <em>Rep. Prog. Phys.</em> 68 (2005) + snowcrystals.com Myths page; Radin et al. protocols in EXPLORE 2(5) 2006 &amp; JSE 22(4) 2008.</p>
+</div>
+
+<h2>2 — The claimed studies, read closely</h2>
+<div class="card">
+<ul>
+<li><strong>Radin/Emoto 2006 (EXPLORE 2(5):408–411):</strong> double-blind, ~2,000 participants, Fiji water in a shielded room. Treated 2.87 vs control 1.88 aesthetic rating, P=.001 one-tailed. Authors' own listed limitations: only crystal-bearing drops photographed, dishes not randomized in freezer, asymmetric environments. <span class="pill p-claimed">CLAIMED</span></li>
+<li><strong>Radin/Lund/Emoto/Kizu 2008 (JSE 22(4):481–493):</strong> triple-blind, 1,900 intenders, 2,500+ judge ratings. Distant controls rated <em>more beautiful</em> than treated samples; only treated-vs-proximal contrast significant (P=.03 one-tailed). Lead author's own blog: effects "small in magnitude… intriguing but not overwhelming." <span class="pill p-claimed">CLAIMED</span></li>
+<li><strong>Independent replications 2008–present:</strong> none found positive. Randi's $1M challenge (2003): never taken up; the popular "800-word agreement dispute" story has no primary source. <span class="pill p-untested">UNTESTED</span></li>
+<li><strong>CIA CREST archive:</strong> zero documents on Emoto, "water memory," or "structured water." Verified adjacent IDs: CIA-RDP96-00788R001300230001-3 (Soviet water-structure bibliography, 1975); NSA Warsaw Pact paraphysics survey; STARGATE files mention water only as scene vocabulary. The 1983 Gateway Process memo contains no water-crystal material. <span class="pill p-physics">ARCHIVAL FACT</span></li>
+<li><strong>Russian lineage:</strong> "water memory" = P.P. Gariaev (wave-genome, 1994); Russian Academy position (Physics-Uspekhi 57:37, 2014): no experimental evidence for long-term water memory. <span class="pill p-physics">REVIEW</span></li>
+</ul>
+</div>
+
+<h2>3 — Try the analyzer</h2>
+<div class="card">
+<p>Upload any crystal photo (a snowflake macro, a frost window, an Emoto-book scan of your own copy) and get <strong>objective morphology metrics</strong> — the same feature family used in the scientific literature — computed entirely in your browser. Nothing is uploaded anywhere; this page is static.</p>
+<input type="file" id="imgfile" accept="image/*" style="display:none" onchange="loadImg(event)">
+<div style="text-align:center;margin:14px 0">
+<button class="btn" onclick="document.getElementById('imgfile').click()">📁 Upload crystal image</button>
+<button class="btn ghost" onclick="demoCrystal()">✨ Analyze a demo crystal</button>
+</div>
+<canvas id="cv" width="420" height="420" style="display:none"></canvas>
+<div class="res" id="stats" style="display:none">
+  <div class="stat"><div class="v" id="s-hex">—</div><div class="l">6-fold symmetry score</div></div>
+  <div class="stat"><div class="v" id="s-ang">—</div><div class="l">Branch-angle regularity</div></div>
+  <div class="stat"><div class="v" id="s-den">—</div><div class="l">Branch density index</div></div>
+  <div class="stat"><div class="v" id="s-hab">—</div><div class="l">Nearest habit class</div></div>
+</div>
+<p class="note" id="interpret" style="display:none"></p>
+<p class="note" style="margin-top:12px">Method: center-of-mass detection → radial sampling of the intensity field at 1° steps → 60°-periodicity via discrete autocorrelation (symmetry score) → angular power spectrum of the 6 dominant lobes (angle regularity) → high-frequency energy ratio (branch density). These are the same feature families MASCDB uses for its 2.55M-image database (Grazioli et al., <em>Sci. Data</em> 9:186, 2022; zenodo.org/records/8083133), computed client-side for privacy.</p>
+</div>
+
+<h2>4 — If the Church wants to test this properly</h2>
+<div class="card">
+<p>The 7-point design checklist distilled from the full literature review (what would make a Djedi-conducted experiment scientifically meaningful):</p>
+<ul>
+<li><strong>Preregister</strong> the hypothesis, sample size, and analysis before collecting a single photograph</li>
+<li><strong>Photograph ALL drops</strong> — no selection; publish every crystal or a pre-agreed random subset</li>
+<li><strong>Randomize dish positions</strong> in the freezer; temperature-log every position (the 2006 study's admitted gap)</li>
+<li><strong>Blind the photographer</strong> — codeword labels opened only after scoring</li>
+<li><strong>Objective metrics, not aesthetic panels:</strong> the symmetry/branch metrics in section 3, not human beauty ratings</li>
+<li><strong>Control for the freezing variables:</strong> same water source, same supercooling cycle, same examination temperature window</li>
+<li><strong>Correct for multiplicity:</strong> decide in advance which single comparison counts as "the result"</li>
+</ul>
+<p class="note">This is what separates a twentieth photograph album from a twenty-first experiment. The Church loses nothing by holding this standard — and gains a result the world would have to respect either way.</p>
+</div>
+
+<h2>5 — Complete source ledger</h2>
+<div class="card note">
+<p><strong>Primary papers (full texts read):</strong> Radin, Lund, Emoto &amp; Kizu, J. Sci. Explor. 22(4):481–493 (2008) · Radin et al., EXPLORE 2(5):408–411 (2006) · Nakaya, <em>Snow Crystals</em> (1954) · Magono &amp; Lee, <em>J. Fac. Sci. Hokkaido</em> (1966) · Libbrecht, Rep. Prog. Phys. 68:855 (2005) · Libbrecht, Annu. Rev. Mater. Res. 47 (2017) · Homeopathy 96(3) water-memory special issue (2007).</p>
+<p><strong>Archives:</strong> CIA CREST (documented negative) · CIA-RDP96-00788R001300230001-3 · NSA-RDP96X00790R000100020010-5 · STARGATE collection (Black Vault / Internet Archive mirrors).</p>
+<p><strong>Datasets:</strong> MASCDB — zenodo.org/records/8083133 · pymascdb — github.com/ltelab/pymascdb · CSU Geometric Snowflake Dataset — Zenodo 4584199 · Bentley archives (UW Libraries/Smithsonian, public domain 1902).</p>
+<p><strong>Context:</strong> Benveniste Nature 333 (1988) + Nature 333:823 investigation · Physics-Uspekhi 57:37 (2014) · Tokyo Metropolitan consumer-affairs investigation (2009) · Sunmark Publishing sales statements · Emoto Maui News interview (2004, forum reprints — flagged).</p>
+<p style="margin-top:10px"><strong>Analysis prepared by SOETech LNM agent fleet (Scout ×2, synthesized by Alice) for Christopher Carron / Djedi Church.</strong> Four [unverified] items flagged in the underlying reports; nothing in this page depends on them. <em>So Mote It Be.</em></p>
+</div>
+
+<footer>Private document — Djedi Church &amp; SOETech LLC · Water Series companion · Generated 2026-09-16 · Client-side only: no data leaves this page.</footer>
+</div>
+</div>
+
+<script>
+const PASSCODE='djedichurch';
+function unlock(){
+  if(document.getElementById('pw').value===PASSCODE){
+    sessionStorage.setItem('dj_ok','1');
+    document.getElementById('gate').style.display='none';
+    document.getElementById('app').style.display='block';
+  } else {
+    document.getElementById('err').textContent='Incorrect passcode.';
+  }
+}
+document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')unlock();});
+if(sessionStorage.getItem('dj_ok')==='1'){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';}
+
+/* ---------- crystal analyzer ---------- */
+let srcImg=null;
+function loadImg(e){const f=e.target.files[0];if(!f)return;const im=new Image();im.onload=()=>{srcImg=im;analyze(im);};im.src=URL.createObjectURL(f);}
+function demoCrystal(){
+  const c=document.createElement('canvas');c.width=420;c.height=420;const g=c.getContext('2d');
+  g.fillStyle='#0d1420';g.fillRect(0,0,420,420);
+  g.save();g.translate(210,210);g.strokeStyle='#cfe8f7';g.lineWidth=2.4;g.lineCap='round';
+  for(let a=0;a<360;a+=60){
+    g.save();g.rotate(a*Math.PI/180);
+    g.beginPath();g.moveTo(0,0);g.lineTo(0,-150);g.stroke();
+    for(let r=40;r<=130;r+=30){const len=(150-r)*.42;
+      g.beginPath();g.moveTo(0,-r);g.lineTo(len,-r-len*.7);g.stroke();
+      g.beginPath();g.moveTo(0,-r);g.lineTo(-len,-r-len*.7);g.stroke();}
+    g.restore();
+  }
+  g.beginPath();g.arc(0,0,7,0,7);g.fillStyle='#cfe8f7';g.fill();g.restore();
+  const im=new Image();im.onload=()=>{srcImg=im;analyze(im);};im.src=c.toDataURL();
+}
+function analyze(im){
+  const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+  cv.style.display='block';document.getElementById('stats').style.display='grid';
+  // draw grayscale
+  const S=420;ctx.clearRect(0,0,S,S);ctx.fillStyle='#0d1420';ctx.fillRect(0,0,S,S);
+  const scale=Math.min(S/im.width,S/im.height)*0.92;
+  const w=im.width*scale,h=im.height*scale;
+  ctx.drawImage(im,(S-w)/2,(S-h)/2,w,h);
+  const img=ctx.getImageData(0,0,S,S),d=img.data;
+  const gray=new Float32Array(S*S);
+  for(let i=0;i<S*S;i++){gray[i]=0.299*d[i*4]+0.587*d[i*4+1]+0.114*d[i*4+2];}
+  // center of mass of brightness
+  let sx=0,sy=0,sw=0;
+  for(let y=0;y<S;y++)for(let x=0;x<S;x++){const b=Math.max(0,gray[y*S+x]-40);sx+=x*b;sy+=y*b;sw+=b;}
+  const cx=sw?Math.round(sx/sw):S/2, cy=sw?Math.round(sy/sw):S/2;
+  // radial intensity profile at 1 degree steps
+  const NS=360, prof=new Float32Array(NS);
+  for(let a=0;a<NS;a++){
+    const th=a*Math.PI/180; let sum=0,n=0;
+    for(let r=8;r<S/2-4;r++){
+      const x=Math.round(cx+r*Math.cos(th)), y=Math.round(cy+r*Math.sin(th));
+      if(x<0||y<0||x>=S||y>=S)break;
+      sum+=gray[y*S+x];n++;
+    }
+    prof[a]=sum/Math.max(1,n);
+  }
+  // normalize profile
+  let mn=1e9,mx=-1e9;for(const v of prof){if(v<mn)mn=v;if(v>mx)mx=v;}
+  for(let i=0;i<NS;i++)prof[i]=(prof[i]-mn)/Math.max(1e-6,mx-mn);
+  // 6-fold symmetry: correlation of profile with itself shifted by 60 degrees, over 6 shifts
+  let corr=0;
+  for(let s=0;s<6;s++){
+    const shift=(s*60)%NS;let dot=0,m1=0,m2=0;
+    for(let i=0;i<NS;i++){const j=(i+shift)%NS;dot+=prof[i]*prof[j];m1+=prof[i]**2;m2+=prof[j]**2;}
+    corr+=dot/Math.sqrt(Math.max(1e-9,m1*m2));
+  }
+  const hex=Math.round(corr/6*100);
+  // branch-angle regularity: power at the 6 fundamental lobes vs total angular variance
+  let fund=0,tot=0;
+  for(let k=1;k<=12;k++){
+    let re=0,im=0;
+    for(let i=0;i<NS;i++){re+=prof[i]*Math.cos(k*i*2*Math.PI/NS);im+=prof[i]*Math.sin(k*i*2*Math.PI/NS);}
+    const p=Math.sqrt(re*re+im*im)/NS;
+    if(k%2===0&&k%6!==0){} // ignore harmonics of 2
+    if(k===2){fund+=p;} // k=2 -> six lobes over 360deg? k=2 gives 2 cycles; we want 6 lobes = k=6
+    tot+=p;
+  }
+  // recompute cleanly: 6 lobes = k=6
+  let p6=0,ptot=0;
+  for(let k=1;k<=18;k++){
+    let re=0,im=0;
+    for(let i=0;i<NS;i++){re+=prof[i]*Math.cos(k*2*Math.PI*i/NS);im+=prof[i]*Math.sin(k*2*Math.PI*i/NS);}
+    const p=Math.sqrt(re*re+im*im)/NS;ptot+=p;if(k===6)p6=p;
+  }
+  const ang=Math.round(Math.min(100,p6/Math.max(1e-6,ptot)*260));
+  // branch density: high-frequency angular energy ratio
+  let hi=0,lo=0;
+  for(let k=1;k<=36;k++){
+    let re=0,im=0;
+    for(let i=0;i<NS;i++){re+=prof[i]*Math.cos(k*2*Math.PI*i/NS);im+=prof[i]*Math.sin(k*2*Math.PI*i/NS);}
+    const p=Math.sqrt(re*re+im*im)/NS;
+    if(k>8)hi+=p;else lo+=p;
+  }
+  const den=Math.round(hi/Math.max(1e-6,hi+lo)*100);
+  // habit classification (coarse, pedagogical)
+  let habit='Irregular / fragment';
+  if(hex>=62){
+    if(den>=55&&ang>=35)habit='Stellar dendrite (fern-like)';
+    else if(den>=30)habit='Sectored plate';
+    else habit='Hexagonal plate';
+  } else if(hex>=40){
+    habit='Columnar / capped (or off-axis capture)';
+  }
+  document.getElementById('s-hex').textContent=hex;
+  document.getElementById('s-ang').textContent=ang;
+  document.getElementById('s-den').textContent=den;
+  document.getElementById('s-hab').textContent=habit;
+  const interp=document.getElementById('interpret');interp.style.display='block';
+  interp.innerHTML='<strong>Interpretation guard-rails:</strong> these metrics quantify <em>shape</em> only. In the physics, symmetry scores and habit classes are explained by temperature/humidity history (Nakaya diagram), not by content of mind. If you photograph two "intention" conditions, compare <em>distributions of these metrics</em> with blinding and preregistration (Section 4) — single-image symmetry says nothing about messages. That is the honest line, and it is exactly what makes a future Church experiment publishable.';
+  // overlay: mark center + sampling ring
+  ctx.strokeStyle='rgba(91,200,245,.35)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.arc(cx,cy,S/2-6,0,7);ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,4,0,7);ctx.fillStyle='#c9a86a';ctx.fill();
+}
+</script>
+</body>
+</html>
